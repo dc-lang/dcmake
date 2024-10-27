@@ -30,7 +30,8 @@ jobs:
 
       - name: Build
         run: |
-          PATH=$PATH:$(pwd) make
+          export PATH=$PATH:"$(pwd)"
+          make
           mv dcmake dcmake-x86_64
       
       - name: Upload artifact
