@@ -30,6 +30,7 @@ jobs:
 
       - name: Build
         run: |
+          echo $(llc --version)
           export PATH=$PATH:"$(pwd)"
           make
           mv dcmake dcmake-x86_64
