@@ -19,10 +19,16 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y liblua5.4-dev
+      
+      - name: Install DC Compiler
+        run: |
+          wget https://github.com/dc-lang/dc/releases/download/nightly-release/dcc-x86_64
+          mv dcc-x86_64 dcc
+          chmod +x dcc
 
       - name: Build
         run: |
-          make
+          PATH=. make
           mv dcmake dcmake-x86_64
       
       - name: Upload artifact
