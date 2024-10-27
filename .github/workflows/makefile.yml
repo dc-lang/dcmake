@@ -31,6 +31,10 @@ jobs:
       - name: Build
         run: |
           export PATH=$PATH:"$(pwd)"
+          echo $PATH
+          echo $(which llc)
+          echo $(which cc)
+          echo $(which as)
           make
           mv dcmake dcmake-x86_64
       
