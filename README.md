@@ -1,2 +1,2 @@
 # dcmake
-Kinda like makefile but for DC
+Kinda like makefile but for DC (written in DC btw)
