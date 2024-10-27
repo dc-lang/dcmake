@@ -10,7 +10,7 @@ context main i32 argc str* argv -> i32;
 
   printf("-- dcmake: reading dcmake.lua\n");
 
-  luaL_dostring(L, "print(123a)") -> dostring_res;
+  luaL_dostring(L, "print(123)") -> dostring_res;
 
   if dostring_res != 0;
     lua_tostring(L, -1) -> dostring_err;

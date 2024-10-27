@@ -18,7 +18,7 @@ context luaL_dostring ptr L str s -> i32;
     assign res = 1;
   fi;
 
-  if b != 1;
+  if b != 0;
     assign res = 1;
   fi;
 
