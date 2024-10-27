@@ -1,0 +1,58 @@
+name: Build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y liblua5.4-dev
+
+      - name: Build
+        run: |
+          make
+          mv dcmake dcmake-x86_64
+      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: dcmake-artifact-x86_64
+          path: dcmake-x86_64
+
+  publish:
+    name: Publish
+    runs-on: ubuntu-latest
+    needs: [ build ]
+
+    steps:
+      - name: Authenticate GitHub CLI
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: dcmake-artifact-x86_64
+
+      - name: Update Nightly Release
+        uses: andelf/nightly-release@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: nightly-release
+          name: 'Nightly Release'
+          body: |
+            Automated nightly release for commit ${{ github.sha }}. This release contains all of the newest features. Not intended for use unless you're a developer
+          files: |
+            ./dcmake-x86_64
