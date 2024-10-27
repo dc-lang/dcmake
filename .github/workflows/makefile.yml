@@ -28,7 +28,7 @@ jobs:
 
       - name: Build
         run: |
-          PATH=. make
+          PATH=$PATH:$(pwd) make
           mv dcmake dcmake-x86_64
       
       - name: Upload artifact
