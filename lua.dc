@@ -1,0 +1,32 @@
+extern ptr luaL_newstate;
+extern void lua_close ptr;
+extern void luaL_openlibs ptr;
+extern i32 luaL_loadstring ptr str;
+extern i32 lua_pcallk ptr i32 i32 i32 ptr ptr;
+extern str lua_tolstring ptr i32 i64*;
+
+context luaL_dostring ptr L str s -> i32;
+  declare i32 a;
+  declare i32 b;
+  declare i32 res;
+  assign res = 0;
+
+  luaL_loadstring(L, s) -> a;
+  lua_pcallk(L, 0, -1, 0, 0, 0) -> b;
+
+  if a != 0;
+    assign res = 1;
+  fi;
+
+  if b != 1;
+    assign res = 1;
+  fi;
+
+  return res;
+context;
+
+context lua_tostring ptr L i32 i -> str;
+  declare str res;
+  lua_tolstring(L, i, 0) -> res;
+  return res;
+context;

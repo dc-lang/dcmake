@@ -1,0 +1,24 @@
+extern void exit i32;
+
+context main i32 argc str* argv -> i32;
+  declare ptr L;
+  declare i32 dostring_res;
+  declare str dostring_err;
+
+  luaL_newstate() -> L;
+  luaL_openlibs(L);
+
+  printf("-- dcmake: reading dcmake.lua\n");
+
+  luaL_dostring(L, "print(123a)") -> dostring_res;
+
+  if dostring_res != 0;
+    lua_tostring(L, -1) -> dostring_err;
+    printf("-- dcmake: lua error: %s\n", dostring_err);
+    exit(1);
+  fi;
+
+  lua_close(L);
+
+  return 0;
+context;
