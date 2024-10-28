@@ -4,13 +4,16 @@ context main i32 argc str* argv -> i32;
   declare ptr L;
   declare i32 dostring_res;
   declare str dostring_err;
+  declare str lua_code;
 
   luaL_newstate() -> L;
   luaL_openlibs(L);
 
   printf("-- dcmake: reading dcmake.lua\n");
 
-  luaL_dostring(L, "print(123)") -> dostring_res;
+  read_file_to_string("dcmake.lua") -> lua_code;
+
+  luaL_dostring(L, lua_code) -> dostring_res;
 
   if dostring_res != 0;
     lua_tostring(L, -1) -> dostring_err;
@@ -19,6 +22,7 @@ context main i32 argc str* argv -> i32;
   fi;
 
   lua_close(L);
+  delete(lua_code);
 
   return 0;
 context;

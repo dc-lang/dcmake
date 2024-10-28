@@ -1,0 +1,40 @@
+extern ptr fopen str str;
+extern void fseek ptr i64 i32;
+extern i64 ftell ptr;
+extern i64 fread str i64 i64 ptr;
+extern void fclose ptr;
+
+context read_file_to_string str filename -> str;
+  declare ptr file;
+  declare i64 file_size;
+  declare str buffer;
+  declare i64 bytes_read;
+
+  fopen(filename, "rb") -> file;
+  if file == 0;
+    printf("-- dcmake: failed to read %s\n", filename);
+    exit(1);
+  fi;
+
+  fseek(file, 0, 2);
+  ftell(file) -> file_size;
+  fseek(file, 0, 0);
+
+  assign file_size = file_size + 1;
+  alloc(file_size) -> buffer;
+  assign file_size = file_size - 1;
+
+  fread(buffer, 1, file_size, file) -> bytes_read;
+  if bytes_read != file_size;
+    printf("-- dcmake: Failed to read complete file\n");
+    delete(buffer);
+    fclose(file);
+    exit(1);
+  fi;
+
+  array buffer file_size = 0;
+
+  fclose(file);
+  return buffer;
+
+context;
