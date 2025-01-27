@@ -24,7 +24,7 @@ jobs:
           wget http://es.archive.ubuntu.com/ubuntu/pool/main/libf/libffi/libffi7_3.3-4_amd64.deb
           sudo dpkg -i libffi7_3.3-4_amd64.deb
           sudo apt-get update
-          sudo apt-get install -y libllvm19 llvm-19 clang-19 build-essential cmake
+          sudo apt-get install -y libllvm19 llvm-19 clang-19 build-essential liblua5.4-dev
           sudo ln -s /usr/bin/llc-19 /usr/bin/llc
       
       - name: Install DC Compiler
