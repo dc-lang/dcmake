@@ -17,11 +17,15 @@ jobs:
 
       - name: Install dependencies
         run: |
-          wget https://apt.llvm.org/llvm-snapshot.gpg.key -O - | sudo apt-key add -
-          echo "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-18 main" | sudo tee /etc/apt/sources.list.d/llvm-toolchain-focal-18.list
           sudo apt-get update
-          sudo apt-get install -y llvm-18 llvm-18-dev llvm-18-tools build-essential clang-18 liblua5.4-dev
-          sudo ln -s /usr/bin/llc-18 /usr/bin/llc
+          sudo apt-get install -y wget
+          wget https://apt.llvm.org/llvm-snapshot.gpg.key -O - | sudo apt-key add -
+          echo "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-19 main" | sudo tee /etc/apt/sources.list.d/llvm-toolchain-focal-19.list
+          wget http://es.archive.ubuntu.com/ubuntu/pool/main/libf/libffi/libffi7_3.3-4_amd64.deb
+          sudo dpkg -i libffi7_3.3-4_amd64.deb
+          sudo apt-get update
+          sudo apt-get install -y libllvm19 llvm-19 clang-19 build-essential cmake
+          sudo ln -s /usr/bin/llc-19 /usr/bin/llc
       
       - name: Install DC Compiler
         run: |
